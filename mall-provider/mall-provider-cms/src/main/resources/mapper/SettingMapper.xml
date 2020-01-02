@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.ziruo.mall.mapper.SettingMapper">
+  <resultMap id="BaseResultMap" type="net.ziruo.mall.model.domain.Setting">
+    <result column="key" jdbcType="VARCHAR" property="key" />
+    <result column="describe" jdbcType="VARCHAR" property="describe" />
+    <result column="wxapp_id" jdbcType="INTEGER" property="wxappId" />
+    <result column="update_time" jdbcType="INTEGER" property="updateTime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="net.ziruo.mall.model.domain.Setting">
+    <result column="values" jdbcType="LONGVARCHAR" property="values" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    key, describe, wxapp_id, update_time
+  </sql>
+  <sql id="Blob_Column_List">
+    values
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="net.ziruo.mall.model.domain.SettingExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from ln_setting
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="net.ziruo.mall.model.domain.SettingExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ln_setting
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="net.ziruo.mall.model.domain.SettingExample">
+    delete from ln_setting
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="net.ziruo.mall.model.domain.Setting">
+    insert into ln_setting (key, describe, wxapp_id, 
+      update_time, values)
+    values (#{key,jdbcType=VARCHAR}, #{describe,jdbcType=VARCHAR}, #{wxappId,jdbcType=INTEGER}, 
+      #{updateTime,jdbcType=INTEGER}, #{values,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="net.ziruo.mall.model.domain.Setting">
+    insert into ln_setting
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="key != null">
+        key,
+      </if>
+      <if test="describe != null">
+        describe,
+      </if>
+      <if test="wxappId != null">
+        wxapp_id,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="values != null">
+        values,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="key != null">
+        #{key,jdbcType=VARCHAR},
+      </if>
+      <if test="describe != null">
+        #{describe,jdbcType=VARCHAR},
+      </if>
+      <if test="wxappId != null">
+        #{wxappId,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=INTEGER},
+      </if>
+      <if test="values != null">
+        #{values,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="net.ziruo.mall.model.domain.SettingExample" resultType="java.lang.Long">
+    select count(*) from ln_setting
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update ln_setting
+    <set>
+      <if test="record.key != null">
+        key = #{record.key,jdbcType=VARCHAR},
+      </if>
+      <if test="record.describe != null">
+        describe = #{record.describe,jdbcType=VARCHAR},
+      </if>
+      <if test="record.wxappId != null">
+        wxapp_id = #{record.wxappId,jdbcType=INTEGER},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.values != null">
+        values = #{record.values,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update ln_setting
+    set key = #{record.key,jdbcType=VARCHAR},
+      describe = #{record.describe,jdbcType=VARCHAR},
+      wxapp_id = #{record.wxappId,jdbcType=INTEGER},
+      update_time = #{record.updateTime,jdbcType=INTEGER},
+      values = #{record.values,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update ln_setting
+    set key = #{record.key,jdbcType=VARCHAR},
+      describe = #{record.describe,jdbcType=VARCHAR},
+      wxapp_id = #{record.wxappId,jdbcType=INTEGER},
+      update_time = #{record.updateTime,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

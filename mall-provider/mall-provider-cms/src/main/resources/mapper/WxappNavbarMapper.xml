@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.ziruo.mall.mapper.WxappNavbarMapper">
+  <resultMap id="BaseResultMap" type="net.ziruo.mall.model.domain.WxappNavbar">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="wxapp_title" jdbcType="VARCHAR" property="wxappTitle" />
+    <result column="top_text_color" jdbcType="TINYINT" property="topTextColor" />
+    <result column="top_background_color" jdbcType="VARCHAR" property="topBackgroundColor" />
+    <result column="create_time" jdbcType="INTEGER" property="createTime" />
+    <result column="update_time" jdbcType="INTEGER" property="updateTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, wxapp_title, top_text_color, top_background_color, create_time, update_time
+  </sql>
+  <select id="selectByExample" parameterType="net.ziruo.mall.model.domain.WxappNavbarExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ln_wxapp_navbar
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ln_wxapp_navbar
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from ln_wxapp_navbar
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="net.ziruo.mall.model.domain.WxappNavbarExample">
+    delete from ln_wxapp_navbar
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="net.ziruo.mall.model.domain.WxappNavbar">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into ln_wxapp_navbar (wxapp_title, top_text_color, top_background_color, 
+      create_time, update_time)
+    values (#{wxappTitle,jdbcType=VARCHAR}, #{topTextColor,jdbcType=TINYINT}, #{topBackgroundColor,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=INTEGER}, #{updateTime,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="net.ziruo.mall.model.domain.WxappNavbar">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into ln_wxapp_navbar
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="wxappTitle != null">
+        wxapp_title,
+      </if>
+      <if test="topTextColor != null">
+        top_text_color,
+      </if>
+      <if test="topBackgroundColor != null">
+        top_background_color,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="wxappTitle != null">
+        #{wxappTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="topTextColor != null">
+        #{topTextColor,jdbcType=TINYINT},
+      </if>
+      <if test="topBackgroundColor != null">
+        #{topBackgroundColor,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="net.ziruo.mall.model.domain.WxappNavbarExample" resultType="java.lang.Long">
+    select count(*) from ln_wxapp_navbar
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update ln_wxapp_navbar
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.wxappTitle != null">
+        wxapp_title = #{record.wxappTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.topTextColor != null">
+        top_text_color = #{record.topTextColor,jdbcType=TINYINT},
+      </if>
+      <if test="record.topBackgroundColor != null">
+        top_background_color = #{record.topBackgroundColor,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update ln_wxapp_navbar
+    set id = #{record.id,jdbcType=INTEGER},
+      wxapp_title = #{record.wxappTitle,jdbcType=VARCHAR},
+      top_text_color = #{record.topTextColor,jdbcType=TINYINT},
+      top_background_color = #{record.topBackgroundColor,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=INTEGER},
+      update_time = #{record.updateTime,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="net.ziruo.mall.model.domain.WxappNavbar">
+    update ln_wxapp_navbar
+    <set>
+      <if test="wxappTitle != null">
+        wxapp_title = #{wxappTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="topTextColor != null">
+        top_text_color = #{topTextColor,jdbcType=TINYINT},
+      </if>
+      <if test="topBackgroundColor != null">
+        top_background_color = #{topBackgroundColor,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="net.ziruo.mall.model.domain.WxappNavbar">
+    update ln_wxapp_navbar
+    set wxapp_title = #{wxappTitle,jdbcType=VARCHAR},
+      top_text_color = #{topTextColor,jdbcType=TINYINT},
+      top_background_color = #{topBackgroundColor,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

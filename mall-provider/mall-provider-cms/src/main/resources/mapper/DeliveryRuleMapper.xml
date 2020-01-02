@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.ziruo.mall.mapper.DeliveryRuleMapper">
+  <resultMap id="BaseResultMap" type="net.ziruo.mall.model.domain.DeliveryRule">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="delivery_id" jdbcType="INTEGER" property="deliveryId" />
+    <result column="first" jdbcType="DOUBLE" property="first" />
+    <result column="first_fee" jdbcType="DECIMAL" property="firstFee" />
+    <result column="additional" jdbcType="DOUBLE" property="additional" />
+    <result column="additional_fee" jdbcType="DECIMAL" property="additionalFee" />
+    <result column="create_time" jdbcType="INTEGER" property="createTime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="net.ziruo.mall.model.domain.DeliveryRule">
+    <result column="region" jdbcType="LONGVARCHAR" property="region" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, delivery_id, first, first_fee, additional, additional_fee, create_time
+  </sql>
+  <sql id="Blob_Column_List">
+    region
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="net.ziruo.mall.model.domain.DeliveryRuleExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from ln_delivery_rule
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="net.ziruo.mall.model.domain.DeliveryRuleExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ln_delivery_rule
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from ln_delivery_rule
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from ln_delivery_rule
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="net.ziruo.mall.model.domain.DeliveryRuleExample">
+    delete from ln_delivery_rule
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="net.ziruo.mall.model.domain.DeliveryRule">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into ln_delivery_rule (delivery_id, first, first_fee, 
+      additional, additional_fee, create_time, 
+      region)
+    values (#{deliveryId,jdbcType=INTEGER}, #{first,jdbcType=DOUBLE}, #{firstFee,jdbcType=DECIMAL}, 
+      #{additional,jdbcType=DOUBLE}, #{additionalFee,jdbcType=DECIMAL}, #{createTime,jdbcType=INTEGER}, 
+      #{region,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="net.ziruo.mall.model.domain.DeliveryRule">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into ln_delivery_rule
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="deliveryId != null">
+        delivery_id,
+      </if>
+      <if test="first != null">
+        first,
+      </if>
+      <if test="firstFee != null">
+        first_fee,
+      </if>
+      <if test="additional != null">
+        additional,
+      </if>
+      <if test="additionalFee != null">
+        additional_fee,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="region != null">
+        region,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="deliveryId != null">
+        #{deliveryId,jdbcType=INTEGER},
+      </if>
+      <if test="first != null">
+        #{first,jdbcType=DOUBLE},
+      </if>
+      <if test="firstFee != null">
+        #{firstFee,jdbcType=DECIMAL},
+      </if>
+      <if test="additional != null">
+        #{additional,jdbcType=DOUBLE},
+      </if>
+      <if test="additionalFee != null">
+        #{additionalFee,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=INTEGER},
+      </if>
+      <if test="region != null">
+        #{region,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="net.ziruo.mall.model.domain.DeliveryRuleExample" resultType="java.lang.Long">
+    select count(*) from ln_delivery_rule
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update ln_delivery_rule
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.deliveryId != null">
+        delivery_id = #{record.deliveryId,jdbcType=INTEGER},
+      </if>
+      <if test="record.first != null">
+        first = #{record.first,jdbcType=DOUBLE},
+      </if>
+      <if test="record.firstFee != null">
+        first_fee = #{record.firstFee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.additional != null">
+        additional = #{record.additional,jdbcType=DOUBLE},
+      </if>
+      <if test="record.additionalFee != null">
+        additional_fee = #{record.additionalFee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.region != null">
+        region = #{record.region,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update ln_delivery_rule
+    set id = #{record.id,jdbcType=INTEGER},
+      delivery_id = #{record.deliveryId,jdbcType=INTEGER},
+      first = #{record.first,jdbcType=DOUBLE},
+      first_fee = #{record.firstFee,jdbcType=DECIMAL},
+      additional = #{record.additional,jdbcType=DOUBLE},
+      additional_fee = #{record.additionalFee,jdbcType=DECIMAL},
+      create_time = #{record.createTime,jdbcType=INTEGER},
+      region = #{record.region,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update ln_delivery_rule
+    set id = #{record.id,jdbcType=INTEGER},
+      delivery_id = #{record.deliveryId,jdbcType=INTEGER},
+      first = #{record.first,jdbcType=DOUBLE},
+      first_fee = #{record.firstFee,jdbcType=DECIMAL},
+      additional = #{record.additional,jdbcType=DOUBLE},
+      additional_fee = #{record.additionalFee,jdbcType=DECIMAL},
+      create_time = #{record.createTime,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="net.ziruo.mall.model.domain.DeliveryRule">
+    update ln_delivery_rule
+    <set>
+      <if test="deliveryId != null">
+        delivery_id = #{deliveryId,jdbcType=INTEGER},
+      </if>
+      <if test="first != null">
+        first = #{first,jdbcType=DOUBLE},
+      </if>
+      <if test="firstFee != null">
+        first_fee = #{firstFee,jdbcType=DECIMAL},
+      </if>
+      <if test="additional != null">
+        additional = #{additional,jdbcType=DOUBLE},
+      </if>
+      <if test="additionalFee != null">
+        additional_fee = #{additionalFee,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=INTEGER},
+      </if>
+      <if test="region != null">
+        region = #{region,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="net.ziruo.mall.model.domain.DeliveryRule">
+    update ln_delivery_rule
+    set delivery_id = #{deliveryId,jdbcType=INTEGER},
+      first = #{first,jdbcType=DOUBLE},
+      first_fee = #{firstFee,jdbcType=DECIMAL},
+      additional = #{additional,jdbcType=DOUBLE},
+      additional_fee = #{additionalFee,jdbcType=DECIMAL},
+      create_time = #{createTime,jdbcType=INTEGER},
+      region = #{region,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="net.ziruo.mall.model.domain.DeliveryRule">
+    update ln_delivery_rule
+    set delivery_id = #{deliveryId,jdbcType=INTEGER},
+      first = #{first,jdbcType=DOUBLE},
+      first_fee = #{firstFee,jdbcType=DECIMAL},
+      additional = #{additional,jdbcType=DOUBLE},
+      additional_fee = #{additionalFee,jdbcType=DECIMAL},
+      create_time = #{createTime,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

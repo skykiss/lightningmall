@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.ziruo.mall.mapper.OrderMapper">
+  <resultMap id="BaseResultMap" type="net.ziruo.mall.model.domain.Order">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
+    <result column="total_price" jdbcType="DECIMAL" property="totalPrice" />
+    <result column="pay_price" jdbcType="DECIMAL" property="payPrice" />
+    <result column="pay_status" jdbcType="TINYINT" property="payStatus" />
+    <result column="pay_time" jdbcType="INTEGER" property="payTime" />
+    <result column="express_price" jdbcType="DECIMAL" property="expressPrice" />
+    <result column="express_company" jdbcType="VARCHAR" property="expressCompany" />
+    <result column="express_no" jdbcType="VARCHAR" property="expressNo" />
+    <result column="delivery_status" jdbcType="TINYINT" property="deliveryStatus" />
+    <result column="delivery_time" jdbcType="INTEGER" property="deliveryTime" />
+    <result column="receipt_status" jdbcType="TINYINT" property="receiptStatus" />
+    <result column="receipt_time" jdbcType="INTEGER" property="receiptTime" />
+    <result column="order_status" jdbcType="TINYINT" property="orderStatus" />
+    <result column="transaction_id" jdbcType="VARCHAR" property="transactionId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="create_time" jdbcType="INTEGER" property="createTime" />
+    <result column="update_time" jdbcType="INTEGER" property="updateTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, order_no, total_price, pay_price, pay_status, pay_time, express_price, express_company, 
+    express_no, delivery_status, delivery_time, receipt_status, receipt_time, order_status, 
+    transaction_id, user_id, create_time, update_time
+  </sql>
+  <select id="selectByExample" parameterType="net.ziruo.mall.model.domain.OrderExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ln_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ln_order
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from ln_order
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="net.ziruo.mall.model.domain.OrderExample">
+    delete from ln_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="net.ziruo.mall.model.domain.Order">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into ln_order (order_no, total_price, pay_price, 
+      pay_status, pay_time, express_price, 
+      express_company, express_no, delivery_status, 
+      delivery_time, receipt_status, receipt_time, 
+      order_status, transaction_id, user_id, 
+      create_time, update_time)
+    values (#{orderNo,jdbcType=VARCHAR}, #{totalPrice,jdbcType=DECIMAL}, #{payPrice,jdbcType=DECIMAL}, 
+      #{payStatus,jdbcType=TINYINT}, #{payTime,jdbcType=INTEGER}, #{expressPrice,jdbcType=DECIMAL}, 
+      #{expressCompany,jdbcType=VARCHAR}, #{expressNo,jdbcType=VARCHAR}, #{deliveryStatus,jdbcType=TINYINT}, 
+      #{deliveryTime,jdbcType=INTEGER}, #{receiptStatus,jdbcType=TINYINT}, #{receiptTime,jdbcType=INTEGER}, 
+      #{orderStatus,jdbcType=TINYINT}, #{transactionId,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=INTEGER}, #{updateTime,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="net.ziruo.mall.model.domain.Order">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into ln_order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orderNo != null">
+        order_no,
+      </if>
+      <if test="totalPrice != null">
+        total_price,
+      </if>
+      <if test="payPrice != null">
+        pay_price,
+      </if>
+      <if test="payStatus != null">
+        pay_status,
+      </if>
+      <if test="payTime != null">
+        pay_time,
+      </if>
+      <if test="expressPrice != null">
+        express_price,
+      </if>
+      <if test="expressCompany != null">
+        express_company,
+      </if>
+      <if test="expressNo != null">
+        express_no,
+      </if>
+      <if test="deliveryStatus != null">
+        delivery_status,
+      </if>
+      <if test="deliveryTime != null">
+        delivery_time,
+      </if>
+      <if test="receiptStatus != null">
+        receipt_status,
+      </if>
+      <if test="receiptTime != null">
+        receipt_time,
+      </if>
+      <if test="orderStatus != null">
+        order_status,
+      </if>
+      <if test="transactionId != null">
+        transaction_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orderNo != null">
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="totalPrice != null">
+        #{totalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="payPrice != null">
+        #{payPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="payStatus != null">
+        #{payStatus,jdbcType=TINYINT},
+      </if>
+      <if test="payTime != null">
+        #{payTime,jdbcType=INTEGER},
+      </if>
+      <if test="expressPrice != null">
+        #{expressPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="expressCompany != null">
+        #{expressCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="expressNo != null">
+        #{expressNo,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryStatus != null">
+        #{deliveryStatus,jdbcType=TINYINT},
+      </if>
+      <if test="deliveryTime != null">
+        #{deliveryTime,jdbcType=INTEGER},
+      </if>
+      <if test="receiptStatus != null">
+        #{receiptStatus,jdbcType=TINYINT},
+      </if>
+      <if test="receiptTime != null">
+        #{receiptTime,jdbcType=INTEGER},
+      </if>
+      <if test="orderStatus != null">
+        #{orderStatus,jdbcType=TINYINT},
+      </if>
+      <if test="transactionId != null">
+        #{transactionId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="net.ziruo.mall.model.domain.OrderExample" resultType="java.lang.Long">
+    select count(*) from ln_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update ln_order
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderNo != null">
+        order_no = #{record.orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.totalPrice != null">
+        total_price = #{record.totalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.payPrice != null">
+        pay_price = #{record.payPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.payStatus != null">
+        pay_status = #{record.payStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.payTime != null">
+        pay_time = #{record.payTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.expressPrice != null">
+        express_price = #{record.expressPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.expressCompany != null">
+        express_company = #{record.expressCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="record.expressNo != null">
+        express_no = #{record.expressNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deliveryStatus != null">
+        delivery_status = #{record.deliveryStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.deliveryTime != null">
+        delivery_time = #{record.deliveryTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.receiptStatus != null">
+        receipt_status = #{record.receiptStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.receiptTime != null">
+        receipt_time = #{record.receiptTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderStatus != null">
+        order_status = #{record.orderStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.transactionId != null">
+        transaction_id = #{record.transactionId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update ln_order
+    set id = #{record.id,jdbcType=INTEGER},
+      order_no = #{record.orderNo,jdbcType=VARCHAR},
+      total_price = #{record.totalPrice,jdbcType=DECIMAL},
+      pay_price = #{record.payPrice,jdbcType=DECIMAL},
+      pay_status = #{record.payStatus,jdbcType=TINYINT},
+      pay_time = #{record.payTime,jdbcType=INTEGER},
+      express_price = #{record.expressPrice,jdbcType=DECIMAL},
+      express_company = #{record.expressCompany,jdbcType=VARCHAR},
+      express_no = #{record.expressNo,jdbcType=VARCHAR},
+      delivery_status = #{record.deliveryStatus,jdbcType=TINYINT},
+      delivery_time = #{record.deliveryTime,jdbcType=INTEGER},
+      receipt_status = #{record.receiptStatus,jdbcType=TINYINT},
+      receipt_time = #{record.receiptTime,jdbcType=INTEGER},
+      order_status = #{record.orderStatus,jdbcType=TINYINT},
+      transaction_id = #{record.transactionId,jdbcType=VARCHAR},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=INTEGER},
+      update_time = #{record.updateTime,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="net.ziruo.mall.model.domain.Order">
+    update ln_order
+    <set>
+      <if test="orderNo != null">
+        order_no = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="totalPrice != null">
+        total_price = #{totalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="payPrice != null">
+        pay_price = #{payPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="payStatus != null">
+        pay_status = #{payStatus,jdbcType=TINYINT},
+      </if>
+      <if test="payTime != null">
+        pay_time = #{payTime,jdbcType=INTEGER},
+      </if>
+      <if test="expressPrice != null">
+        express_price = #{expressPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="expressCompany != null">
+        express_company = #{expressCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="expressNo != null">
+        express_no = #{expressNo,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryStatus != null">
+        delivery_status = #{deliveryStatus,jdbcType=TINYINT},
+      </if>
+      <if test="deliveryTime != null">
+        delivery_time = #{deliveryTime,jdbcType=INTEGER},
+      </if>
+      <if test="receiptStatus != null">
+        receipt_status = #{receiptStatus,jdbcType=TINYINT},
+      </if>
+      <if test="receiptTime != null">
+        receipt_time = #{receiptTime,jdbcType=INTEGER},
+      </if>
+      <if test="orderStatus != null">
+        order_status = #{orderStatus,jdbcType=TINYINT},
+      </if>
+      <if test="transactionId != null">
+        transaction_id = #{transactionId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="net.ziruo.mall.model.domain.Order">
+    update ln_order
+    set order_no = #{orderNo,jdbcType=VARCHAR},
+      total_price = #{totalPrice,jdbcType=DECIMAL},
+      pay_price = #{payPrice,jdbcType=DECIMAL},
+      pay_status = #{payStatus,jdbcType=TINYINT},
+      pay_time = #{payTime,jdbcType=INTEGER},
+      express_price = #{expressPrice,jdbcType=DECIMAL},
+      express_company = #{expressCompany,jdbcType=VARCHAR},
+      express_no = #{expressNo,jdbcType=VARCHAR},
+      delivery_status = #{deliveryStatus,jdbcType=TINYINT},
+      delivery_time = #{deliveryTime,jdbcType=INTEGER},
+      receipt_status = #{receiptStatus,jdbcType=TINYINT},
+      receipt_time = #{receiptTime,jdbcType=INTEGER},
+      order_status = #{orderStatus,jdbcType=TINYINT},
+      transaction_id = #{transactionId,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.ziruo.mall.mapper.GoodsMapper">
+  <resultMap id="BaseResultMap" type="net.ziruo.mall.model.domain.Goods">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="goods_name" jdbcType="VARCHAR" property="goodsName" />
+    <result column="category_id" jdbcType="INTEGER" property="categoryId" />
+    <result column="spec_type" jdbcType="TINYINT" property="specType" />
+    <result column="deduct_stock_type" jdbcType="TINYINT" property="deductStockType" />
+    <result column="sales_initial" jdbcType="INTEGER" property="salesInitial" />
+    <result column="sales_actual" jdbcType="INTEGER" property="salesActual" />
+    <result column="goods_sort" jdbcType="INTEGER" property="goodsSort" />
+    <result column="delivery_id" jdbcType="INTEGER" property="deliveryId" />
+    <result column="goods_status" jdbcType="TINYINT" property="goodsStatus" />
+    <result column="is_delete" jdbcType="TINYINT" property="isDelete" />
+    <result column="create_time" jdbcType="INTEGER" property="createTime" />
+    <result column="update_time" jdbcType="INTEGER" property="updateTime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="net.ziruo.mall.model.domain.Goods">
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, goods_name, category_id, spec_type, deduct_stock_type, sales_initial, sales_actual, 
+    goods_sort, delivery_id, goods_status, is_delete, create_time, update_time
+  </sql>
+  <sql id="Blob_Column_List">
+    content
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="net.ziruo.mall.model.domain.GoodsExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from ln_goods
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="net.ziruo.mall.model.domain.GoodsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ln_goods
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from ln_goods
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from ln_goods
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="net.ziruo.mall.model.domain.GoodsExample">
+    delete from ln_goods
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="net.ziruo.mall.model.domain.Goods">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into ln_goods (goods_name, category_id, spec_type, 
+      deduct_stock_type, sales_initial, sales_actual, 
+      goods_sort, delivery_id, goods_status, 
+      is_delete, create_time, update_time, 
+      content)
+    values (#{goodsName,jdbcType=VARCHAR}, #{categoryId,jdbcType=INTEGER}, #{specType,jdbcType=TINYINT}, 
+      #{deductStockType,jdbcType=TINYINT}, #{salesInitial,jdbcType=INTEGER}, #{salesActual,jdbcType=INTEGER}, 
+      #{goodsSort,jdbcType=INTEGER}, #{deliveryId,jdbcType=INTEGER}, #{goodsStatus,jdbcType=TINYINT}, 
+      #{isDelete,jdbcType=TINYINT}, #{createTime,jdbcType=INTEGER}, #{updateTime,jdbcType=INTEGER}, 
+      #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="net.ziruo.mall.model.domain.Goods">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into ln_goods
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="goodsName != null">
+        goods_name,
+      </if>
+      <if test="categoryId != null">
+        category_id,
+      </if>
+      <if test="specType != null">
+        spec_type,
+      </if>
+      <if test="deductStockType != null">
+        deduct_stock_type,
+      </if>
+      <if test="salesInitial != null">
+        sales_initial,
+      </if>
+      <if test="salesActual != null">
+        sales_actual,
+      </if>
+      <if test="goodsSort != null">
+        goods_sort,
+      </if>
+      <if test="deliveryId != null">
+        delivery_id,
+      </if>
+      <if test="goodsStatus != null">
+        goods_status,
+      </if>
+      <if test="isDelete != null">
+        is_delete,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="goodsName != null">
+        #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryId != null">
+        #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="specType != null">
+        #{specType,jdbcType=TINYINT},
+      </if>
+      <if test="deductStockType != null">
+        #{deductStockType,jdbcType=TINYINT},
+      </if>
+      <if test="salesInitial != null">
+        #{salesInitial,jdbcType=INTEGER},
+      </if>
+      <if test="salesActual != null">
+        #{salesActual,jdbcType=INTEGER},
+      </if>
+      <if test="goodsSort != null">
+        #{goodsSort,jdbcType=INTEGER},
+      </if>
+      <if test="deliveryId != null">
+        #{deliveryId,jdbcType=INTEGER},
+      </if>
+      <if test="goodsStatus != null">
+        #{goodsStatus,jdbcType=TINYINT},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="net.ziruo.mall.model.domain.GoodsExample" resultType="java.lang.Long">
+    select count(*) from ln_goods
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update ln_goods
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.goodsName != null">
+        goods_name = #{record.goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.categoryId != null">
+        category_id = #{record.categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="record.specType != null">
+        spec_type = #{record.specType,jdbcType=TINYINT},
+      </if>
+      <if test="record.deductStockType != null">
+        deduct_stock_type = #{record.deductStockType,jdbcType=TINYINT},
+      </if>
+      <if test="record.salesInitial != null">
+        sales_initial = #{record.salesInitial,jdbcType=INTEGER},
+      </if>
+      <if test="record.salesActual != null">
+        sales_actual = #{record.salesActual,jdbcType=INTEGER},
+      </if>
+      <if test="record.goodsSort != null">
+        goods_sort = #{record.goodsSort,jdbcType=INTEGER},
+      </if>
+      <if test="record.deliveryId != null">
+        delivery_id = #{record.deliveryId,jdbcType=INTEGER},
+      </if>
+      <if test="record.goodsStatus != null">
+        goods_status = #{record.goodsStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.isDelete != null">
+        is_delete = #{record.isDelete,jdbcType=TINYINT},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.content != null">
+        content = #{record.content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update ln_goods
+    set id = #{record.id,jdbcType=INTEGER},
+      goods_name = #{record.goodsName,jdbcType=VARCHAR},
+      category_id = #{record.categoryId,jdbcType=INTEGER},
+      spec_type = #{record.specType,jdbcType=TINYINT},
+      deduct_stock_type = #{record.deductStockType,jdbcType=TINYINT},
+      sales_initial = #{record.salesInitial,jdbcType=INTEGER},
+      sales_actual = #{record.salesActual,jdbcType=INTEGER},
+      goods_sort = #{record.goodsSort,jdbcType=INTEGER},
+      delivery_id = #{record.deliveryId,jdbcType=INTEGER},
+      goods_status = #{record.goodsStatus,jdbcType=TINYINT},
+      is_delete = #{record.isDelete,jdbcType=TINYINT},
+      create_time = #{record.createTime,jdbcType=INTEGER},
+      update_time = #{record.updateTime,jdbcType=INTEGER},
+      content = #{record.content,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update ln_goods
+    set id = #{record.id,jdbcType=INTEGER},
+      goods_name = #{record.goodsName,jdbcType=VARCHAR},
+      category_id = #{record.categoryId,jdbcType=INTEGER},
+      spec_type = #{record.specType,jdbcType=TINYINT},
+      deduct_stock_type = #{record.deductStockType,jdbcType=TINYINT},
+      sales_initial = #{record.salesInitial,jdbcType=INTEGER},
+      sales_actual = #{record.salesActual,jdbcType=INTEGER},
+      goods_sort = #{record.goodsSort,jdbcType=INTEGER},
+      delivery_id = #{record.deliveryId,jdbcType=INTEGER},
+      goods_status = #{record.goodsStatus,jdbcType=TINYINT},
+      is_delete = #{record.isDelete,jdbcType=TINYINT},
+      create_time = #{record.createTime,jdbcType=INTEGER},
+      update_time = #{record.updateTime,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="net.ziruo.mall.model.domain.Goods">
+    update ln_goods
+    <set>
+      <if test="goodsName != null">
+        goods_name = #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryId != null">
+        category_id = #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="specType != null">
+        spec_type = #{specType,jdbcType=TINYINT},
+      </if>
+      <if test="deductStockType != null">
+        deduct_stock_type = #{deductStockType,jdbcType=TINYINT},
+      </if>
+      <if test="salesInitial != null">
+        sales_initial = #{salesInitial,jdbcType=INTEGER},
+      </if>
+      <if test="salesActual != null">
+        sales_actual = #{salesActual,jdbcType=INTEGER},
+      </if>
+      <if test="goodsSort != null">
+        goods_sort = #{goodsSort,jdbcType=INTEGER},
+      </if>
+      <if test="deliveryId != null">
+        delivery_id = #{deliveryId,jdbcType=INTEGER},
+      </if>
+      <if test="goodsStatus != null">
+        goods_status = #{goodsStatus,jdbcType=TINYINT},
+      </if>
+      <if test="isDelete != null">
+        is_delete = #{isDelete,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="net.ziruo.mall.model.domain.Goods">
+    update ln_goods
+    set goods_name = #{goodsName,jdbcType=VARCHAR},
+      category_id = #{categoryId,jdbcType=INTEGER},
+      spec_type = #{specType,jdbcType=TINYINT},
+      deduct_stock_type = #{deductStockType,jdbcType=TINYINT},
+      sales_initial = #{salesInitial,jdbcType=INTEGER},
+      sales_actual = #{salesActual,jdbcType=INTEGER},
+      goods_sort = #{goodsSort,jdbcType=INTEGER},
+      delivery_id = #{deliveryId,jdbcType=INTEGER},
+      goods_status = #{goodsStatus,jdbcType=TINYINT},
+      is_delete = #{isDelete,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=INTEGER},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="net.ziruo.mall.model.domain.Goods">
+    update ln_goods
+    set goods_name = #{goodsName,jdbcType=VARCHAR},
+      category_id = #{categoryId,jdbcType=INTEGER},
+      spec_type = #{specType,jdbcType=TINYINT},
+      deduct_stock_type = #{deductStockType,jdbcType=TINYINT},
+      sales_initial = #{salesInitial,jdbcType=INTEGER},
+      sales_actual = #{salesActual,jdbcType=INTEGER},
+      goods_sort = #{goodsSort,jdbcType=INTEGER},
+      delivery_id = #{deliveryId,jdbcType=INTEGER},
+      goods_status = #{goodsStatus,jdbcType=TINYINT},
+      is_delete = #{isDelete,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

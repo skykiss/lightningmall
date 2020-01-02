@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: mall-provider-sms
+
+#  datasource:
+#    url: jdbc:mysql://undefinition.cn:3306/lightning?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+#    username: lightning
+#    password: lightning
+#    driver-class-name: com.mysql.jdbc.Driver
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:10001/eureka
+    registry-fetch-interval-seconds: 5
+
+server:
+  port: 5041
