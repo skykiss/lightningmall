@@ -13,3 +13,4 @@ zuul:
   retryable: true
   routes:
     mall-provider-pms: /pms/**
+    mall-provider-sms: /sms/**

@@ -18,3 +18,7 @@ eureka:
     registry-fetch-interval-seconds: 5
 mybatis:
   mapper-locations: classpath:mapper/*.xml
+
+# swagger
+swagger:
+  base-package: net.ziruo.mall.controller
