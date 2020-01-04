@@ -37,6 +37,8 @@ public class MallGatewayApplication {
             List<SwaggerResource> resources = new ArrayList<>();
             resources.add(swaggerResource("商品管理Api","/api/pms/v2/api-docs","2.0"));
             resources.add(swaggerResource("搜索管理Api","/api/sms/v2/api-docs","2.0"));
+            resources.add(swaggerResource("系统管理Api","/api/cms/v2/api-docs","2.0"));
+
             return resources;
         }
 

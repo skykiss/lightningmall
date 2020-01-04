@@ -18,3 +18,21 @@ eureka:
     registry-fetch-interval-seconds: 5
 mybatis:
   mapper-locations: classpath:mapper/*.xml
+
+# swagger
+swagger:
+  base-package: net.ziruo.mall.controller
+
+
+aliyun:
+  oss:
+    endpoint: oss-cn-shanghai.aliyuncs.com # oss对外服务的访问域名
+    accessKeyId: LTAImilqqfR4Lm6Q # 访问身份验证中用到用户标识
+    accessKeySecret: QpBsp1MHQJlWubMPVacm8B10nPBUat # 用户用于加密签名字符串和oss用来验证签名字符串的密钥
+    bucketName: lightning-mall # oss的存储空间
+    policy:
+      expire: 300 # 签名有效期(S)
+    maxSize: 10 # 上传文件大小(M)
+    callback: http://39.98.190.128:8080/aliyun/oss/callback # 文件上传成功后的回调地址
+    dir:
+      prefix: mall/images/ # 上传文件夹路径前缀
